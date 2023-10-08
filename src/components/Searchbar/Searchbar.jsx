@@ -1,25 +1,25 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import css from './Searchbar.module.css'
 
-export class Searchbar extends Component {
-  state = {
-    picture: '',
-  };
-  handleSubmit = evt => {
+export const Searchbar = ({picImg}) => {
+  const [picture, setPicture] = useState('');
+
+  const handleSubmit = evt => {
     evt.preventDefault();
-    if (this.state.picture.trim() === '') {
+    if (picture.trim() === '') {
         alert('What would you like to find?')
         return
     }
-    this.props.picImg(this.state.picture);
-    this.setState({ picture: '' });
+    picImg(picture);
+    setPicture('');
   };
-  changeName = evt => {
-    this.setState({ picture: evt.currentTarget.value.toLowerCase() });
+
+  const changeName = evt => {
+    setPicture(evt.currentTarget.value.toLowerCase() );
   };
-  render() {
+
     return (
-      <header className={css.searchbar} onSubmit={this.handleSubmit}>
+      <header className={css.searchbar} onSubmit={handleSubmit}>
         <form className="form">
           <button type="submit" className={css.barBtn}>
             <span className={css.buttonLabel}>&#128269;</span>
@@ -29,13 +29,12 @@ export class Searchbar extends Component {
             className={css.input}
             type="text"
             autoComplete="off"
-            value={this.state.picture}
-            onChange={this.changeName}
+            value={picture}
+            onChange={changeName}
             autoFocus
             placeholder="Search images and photos"
           />
         </form>
       </header>
     );
-  }
 }
