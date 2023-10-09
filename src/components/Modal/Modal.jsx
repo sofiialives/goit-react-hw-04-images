@@ -3,14 +3,16 @@ import css from './Modal.module.css';
 
 export const Modal = ({ onClose, data }) => {
   useEffect(() => {
+    const escapeClick = evt => {
+      if (evt.code === 'Escape') {
+        onClose();
+      }
+    };
     window.addEventListener('keydown', escapeClick);
-  }, []);
-
-  useEffect(() => {
     return () => {
       window.removeEventListener('keydown', escapeClick);
     };
-  }, []);
+  }, [onClose]);
 
   const bckgClick = event => {
     if (event.currentTarget === event.target) {
@@ -18,11 +20,6 @@ export const Modal = ({ onClose, data }) => {
     }
   };
 
-  const escapeClick = evt => {
-    if (evt.code === 'Escape') {
-      onClose();
-    }
-  };
 
   return (
     <div className={css.overlay} onClick={bckgClick}>
