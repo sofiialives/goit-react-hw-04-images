@@ -22,22 +22,18 @@ export const App = () => {
     setPics([]);
   };
 
-  useEffect(
-    prevState => {
-      if (prevState !== picture || prevState !== page) {
-        setLoading(true);
-        fetchImages(picture, page)
-          .then(data => {
-            setPics(prevState => [...prevState, ...data.hits]);
-          })
-          .catch(error => {
-            console.error('Error fetching data:', error);
-          })
-          .finally(() => setLoading(false));
-      }
-    },
-    [picture, page]
-  );
+  useEffect(() => {
+    if (!picture) return;
+    setLoading(true);
+    fetchImages(picture, page)
+      .then(data => {
+        setPics(prevState => [...prevState, ...data.hits]);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      })
+      .finally(() => setLoading(false));
+  }, [picture, page]);
 
   const openModal = largeImageURL => {
     setModal({
